@@ -25,10 +25,22 @@ const validationSchema = Yup.object().shape({
 });
 
 class Login extends Component {
-  state = {
-    passwordVisibility: true,
-    rightIcon: "ios-eye"
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      passwordVisibility: true,
+      rightIcon: "ios-eye"
+    };
+  }
+
+  componentDidMount () {
+
   };
+
+  componentWillUnmount() {
+    
+  }
 
   goToForgotPassword = () => this.props.navigation.navigate("ForgotPassword");
 
@@ -58,7 +70,6 @@ class Login extends Component {
   };
 
   render() {
-    console.log("Login Page");
     const { passwordVisibility, rightIcon } = this.state;
     return (
       <View style={styles.container}>
