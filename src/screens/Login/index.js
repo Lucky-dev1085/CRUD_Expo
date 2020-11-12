@@ -9,7 +9,7 @@ import FormButton from "../../components/FormButton";
 import ErrorMessage from "../../components/ErrorMessage";
 import { HideWithKeyboard } from "react-native-hide-with-keyboard";
 import AppLogo from "../../components/AppLogo";
-// import { withFirebaseHOC } from "../../config/Firebase";
+import { withFirebaseHOC } from "../../config/Firebase";
 
 import styles from "./styles";
 
@@ -39,25 +39,26 @@ class Login extends Component {
     }));
   };
 
-  // handleOnLogin = async (values, actions) => {
-  //   const { email, password } = values;
-  //   try {
-  //     const response = await this.props.firebase.loginWithEmail(
-  //       email,
-  //       password
-  //     );
+  handleOnLogin = async (values, actions) => {
+    const { email, password } = values;
+    try {
+      const response = await this.props.firebase.loginWithEmail(
+        email,
+        password
+      );
 
-  //     if (response.user) {
-  //       this.props.navigation.navigate("App");
-  //     }
-  //   } catch (error) {
-  //     actions.setFieldError("general", error.message);
-  //   } finally {
-  //     actions.setSubmitting(false);
-  //   }
-  // };
+      if (response.user) {
+        this.props.navigation.navigate("App");
+      }
+    } catch (error) {
+      actions.setFieldError("general", error.message);
+    } finally {
+      actions.setSubmitting(false);
+    }
+  };
 
   render() {
+    console.log("Login Page");
     const { passwordVisibility, rightIcon } = this.state;
     return (
       <View style={styles.container}>
@@ -155,5 +156,4 @@ class Login extends Component {
 
 Login.navigationOptions = { headerShown: false };
 
-// export default withFirebaseHOC(Login);
-export default Login;
+export default withFirebaseHOC(Login);

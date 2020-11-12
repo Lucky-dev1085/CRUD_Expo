@@ -3,6 +3,7 @@ import { AppLoading } from "expo";
 import { Asset } from "expo-asset";
 import * as Font from "expo-font";
 import * as Icon from "@expo/vector-icons";
+import { withFirebaseHOC } from "../config/Firebase";
 
 class Initial extends Component {
     state = {
@@ -15,15 +16,15 @@ class Initial extends Component {
             // previously
             this.loadLocalAsync();
         
-            // await this.props.firebase.checkUserAuth(user => {
-            //     if (user) {
-            //         // if the user has previously logged in
+            await this.props.firebase.checkUserAuth(user => {
+                if (user) {
+                    // if the user has previously logged in
                     this.props.navigation.navigate("App");
-            //     } else {
-            //         // if the user has previously signed out from the app
-            //         this.props.navigation.navigate("Auth");
-            //     }
-            // });
+                } else {
+                    // if the user has previously signed out from the app
+                    this.props.navigation.navigate("Auth");
+                }
+            });
         } catch (error) {
             console.log(error);
         }
@@ -62,4 +63,4 @@ class Initial extends Component {
     }
 }
 
-export default Initial;
+export default withFirebaseHOC(Initial);

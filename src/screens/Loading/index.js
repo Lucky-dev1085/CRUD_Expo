@@ -14,6 +14,18 @@ export default class Loading extends Component {
     };
   }
 
+  componentDidMount = () => {
+    this.props.navigation.dispatch(
+      NavigationActions.navigate({
+        routeName: "Login",
+        params: {},
+        action: NavigationActions.navigate({
+          routeName: "Login",
+        }),
+      })
+    );
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -32,51 +44,5 @@ export default class Loading extends Component {
     );
   }
 }
-
-const saveData = async (name, results) => {
-  await Promise.all(
-    results.map(async (result) => {
-      let keys = Object.keys(result).join(",");
-      let values = Object.values(result)
-        .join('","')
-        .replace("don't", "do not")
-        .replace("doesn't", "does not")
-        .replace("can't", "can not");
-
-      let sqlInsert = "INSERT INTO " + name;
-      let queryInsert = sqlInsert + " (" + keys + ') values ("' + values + '")';
-
-      let sqlReplace = "REPLACE INTO " + name;
-      let queryReplace =
-        sqlReplace + " (" + keys + ') values ("' + values + '")';
-
-      const tx = await new Promise((resolve) => db.transaction(resolve));
-
-      await new Promise((resolve, reject) =>
-        tx.executeSql(
-          queryInsert,
-          [],
-          (tx, results) => {
-            console.log("++ = ", queryInsert);
-            resolve();
-          },
-          (t, error) => {
-            tx.executeSql(
-              queryReplace,
-              [],
-              (tx, results) => { 
-                console.log("-- = ", queryReplace);
-                resolve();
-              },
-              (t, error) => {
-                console.log({ replace: error });
-              }
-            );
-          }
-        )
-      );
-    })
-  );
-};
 
 Loading.navigationOptions = { headerShown: false };

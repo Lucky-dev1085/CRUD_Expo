@@ -1,12 +1,18 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import AppContainer from './src/navigation';
+import Firebase, { FirebaseProvider } from './src/config/Firebase'
+import { ThemeProvider } from 'react-native-elements';
+
+const theme = {}
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <AppContainer />
-    </View>
+    <ThemeProvider theme={theme} >
+        <FirebaseProvider value={Firebase}>
+          <AppContainer />
+        </FirebaseProvider>
+      </ThemeProvider>
   );
 }
 
